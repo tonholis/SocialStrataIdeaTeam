@@ -5,7 +5,8 @@
 
         .module('app', [
             'ionic',
-
+			
+			'app.firebase',
             'app.auth',
             'app.sidemenu',
             'app.buildings'
