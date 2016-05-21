@@ -18,9 +18,9 @@
         </ion-header-bar>
         <ion-content>
             <ion-list>
-                <ion-item ui-sref="app.profile" class="item-avatar">
+                <ion-item menu-close ui-sref="app.profile" class="item-avatar">
                   <img src="../img/ionic.png">
-                  <h3>User Profile</h3>
+                  <h3>{{displayName}}</h3>
                </ion-item>
                 
                 <ion-item class="stable-bg">
@@ -65,10 +65,8 @@
                 <ion-item menu-close class="stable-bg">
                     <i>Info</i>
                 </ion-item>
-                <ion-item menu-close  class="positive">
-                    <i class="ion ion-wrench"></i> Settings
-                </ion-item>
-                <ion-item menu-close  class="positive">
+                
+                <ion-item menu-close  class="positive" >
                     <i class="ion ion-log-out"></i> Logout
                 </ion-item>
             </ion-list>

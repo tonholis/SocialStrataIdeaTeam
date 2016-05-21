@@ -1,0 +1,16 @@
+<ion-view view-title="Profile" ng-controller="profileController">
+	<ion-content>
+		<div class="list">
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Display Name</span>
+				<input type="text" placeholder="" ng-model="data.displayName">
+			</label>
+			<label class="item item-input item-stacked-label">
+				<span class="input-label">Email</span>
+				<input type="text" placeholder="john@mygreenspace.co" ng-model="data.email">
+			</label>
+		</div>
+		<button class="button button-block button-dark" ng-click="update()">Update</button>
+
+	</ion-content>
+</ion-view>

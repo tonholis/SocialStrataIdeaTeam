@@ -11,8 +11,8 @@
 
 		return auth.createUserWithEmailAndPassword(email, password);
 	}
-
-    function authService($q, firebaseService) {
+	
+    function authService($q, $rootScope, firebaseService, user) {
 		var auth = firebaseService.fb.auth();
 
 		return {
@@ -23,6 +23,9 @@
 				var successHandler = function(info) {
 					info.isNew = info.displayName == null;
 					deferred.resolve(info);
+					
+					user = firebase.auth().currentUser;
+					$rootScope.$broadcast('name-changed');
 				};
 
 				var errorHandler = function(error) {
@@ -50,14 +53,29 @@
                 }
                 return promise;
             },
+			
+			updateProfile: function(data) {
+                var deferred = $q.defer();
+				
+				auth.currentUser.updateProfile(data)
+					.then(function success() {
+						deferred.resolve("Profile updated!");
+						user = firebase.auth().currentUser;
+						$rootScope.$broadcast('name-changed');
+					}, function error(error) {
+						deferred.reject(error);
+					});
+                
+				return deferred.promise;
+            },
+			
+			logout: function () {
+				auth.signOut();
+				user = firebase.auth().currentUser;
+			},
 
             user: function() {
-				return auth.currentUser;
-                // return {
-                //     username: "user",
-                //     password: "password",
-                //     type: Math.floor(Math.random() * 2) + 1
-                // }
+				return firebase.auth().currentUser;
             }
         }
     }

@@ -12,9 +12,11 @@
             'app.buildings',
             'app.profiles'
         ])
+		
+		.value("user", null)
 
-        .run(function ($ionicPlatform) {
-            $ionicPlatform.ready(function () {
+        .run(function ($ionicPlatform, $timeout, $rootScope) {
+			$ionicPlatform.ready(function () {
                 if (window.cordova && window.cordova.plugins.Keyboard) {
                     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 
@@ -23,6 +25,8 @@
                 if (window.StatusBar) {
                     StatusBar.styleDefault();
                 }
+				
+				$rootScope.$broadcast('name-changed');
             });
         });
 })();
