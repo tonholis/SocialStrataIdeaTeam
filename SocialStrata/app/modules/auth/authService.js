@@ -3,12 +3,11 @@
 
     angular.module("app.auth")
 
-        .service("authService", authService)
+        .service("authService", authService);
 
 
     function authService($q) {
-
-        return {
+		return {
             login: function (username, password) {
                 var deferred = $q.defer();
                 var promise = deferred.promise;
