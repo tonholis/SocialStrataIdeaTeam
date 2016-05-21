@@ -1,0 +1,65 @@
+{
+	users: [
+		cleyton: {
+			fullName: "Cleyton Tonholi",
+			email: "tonholis@green.com",
+			password: "123"
+		},
+		luke: {
+			fullName: "Luke Valeenz",
+			email: "luke@green.com",
+			password: "123"
+		},
+		fabiano: {
+			fullName: "Fabiano Arruda",
+			email: "fabiano@green.com",
+			password: "123"
+		},
+		paulo: {
+			fullName: "Paulo Sergio",
+			email: "paulo@green.com",
+			password: "123"
+		}
+	],
+	buildings: [
+		condonyc: {
+			landlord: "cleyton",
+			name: "Condo NYC",
+			address: "1234 5th Avenue",
+			city: "New York City",
+			channels: [
+				general: {
+					type: "common",
+					type: "common",
+				},
+				general: {
+					type: "common",
+					type: "common",
+				}
+			]
+		},
+		condosf: {
+			landlord: "fabiano",
+			name: "Condo SF",
+			address: "333 1st Court",
+			city: "San Francisco"
+			channels: []
+		}
+	],
+	messages: [
+		{
+			channel: "condo1/general", //channel message
+			date: 1242356456756,
+			from: "cleyton",
+			to: "luke",
+			text: "asdlnasdln alsdn sldnals da"
+		},
+		{
+			channel: null, //direct message
+			date: 1242356456756,
+			from: "cleyton",
+			to: "luke",
+			text: "asdlnasdln alsdn sldnals da"
+		}
+	]
+}
