@@ -6,14 +6,28 @@
         .controller("buildingController", buildingController);
 
 
-    function buildingController($scope, $stateParams) {
-        $scope.channels = [
-            { name: 'Channel 1', id: 1 },
-            { name: 'Channel 2', id: 2 },
-            { name: 'Channel 3', id: 3 },
-            { name: 'Channel 4', id: 4 },
-            { name: 'Channel 5', id: 5 },
-            { name: 'Channel 6', id: 6 }
-        ];
+    function buildingController($scope, $ionicLoading, $stateParams, FirebaseService) {
+		var ref = FirebaseService.fb.database().ref('buildings/' + $stateParams.buildingId + "/channels");
+
+		$ionicLoading.show();
+		ref.on("value", function(snapshot) {
+			var val = snapshot.val();
+			
+			if (val) {
+				$scope.channels = angular.extend(val.common, val.services);
+			}
+			else {
+				
+			}
+			$ionicLoading.hide();
+		}, function(errorObject) {
+			console.log("error reading: " + errorObject.code);
+			var alertPopup = $ionicPopup.alert({
+				title: 'Ops!',
+				template: 'Sorry! An error ocurred.'
+			});
+			$ionicLoading.hide();
+		});
+		
     }
 })();

@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     angular.module("app.auth")
@@ -10,8 +10,8 @@
 
         $scope.data = {};
 
-        $scope.login = function () {
-            authService.login($scope.data.username, $scope.data.password).success(function(data) {
+        $scope.login = function() {
+			authService.login($scope.data.username, $scope.data.password).success(function(data) {
                 $state.go('app.buildings');
             }).error(function(data) {
                 var alertPopup = $ionicPopup.alert({
