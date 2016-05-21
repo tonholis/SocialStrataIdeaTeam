@@ -15,20 +15,20 @@
                     templateUrl: 'views/sidemenu.html',
                 })
 
-                .state('app.groups', {
-                    url: '/groups',
+                .state('app.buildings', {
+                    url: '/buildings',
                     views: {
                         'menuContent': {
-                            templateUrl: 'views/groups.html'
+                            templateUrl: 'views/buildings.html'
                         }
                     }
                 })
 
-                .state('app.group', {
-                    url: '/groups/:groupId',
+                .state('app.building', {
+                    url: '/buildings/:buildingId',
                     views: {
                         'menuContent': {
-                            templateUrl: 'views/group.html'
+                            templateUrl: 'views/building.html'
                         }
                     }
                 })

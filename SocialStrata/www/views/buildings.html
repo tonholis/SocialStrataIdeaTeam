@@ -1,0 +1,9 @@
+<ion-view view-title="Buildings" ng-controller="buildingsController">
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="building in buildings" ui-sref="app.building({{building.id}})">
+                {{building.name}}
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

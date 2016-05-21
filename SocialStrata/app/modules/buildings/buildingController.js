@@ -1,12 +1,12 @@
 (function () {
     'use strict';
 
-    angular.module("app.groups")
+    angular.module("app.buildings")
 
-        .controller("groupController", groupController);
+        .controller("buildingController", buildingController);
 
 
-    function groupController($scope, $stateParams) {
+    function buildingController($scope, $stateParams) {
         $scope.channels = [
             { name: 'Channel 1', id: 1 },
             { name: 'Channel 2', id: 2 },
