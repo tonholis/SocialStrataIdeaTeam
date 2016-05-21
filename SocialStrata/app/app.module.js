@@ -1,7 +1,13 @@
 (function () {
     'use strict';
 
-    angular.module('SocialStrata', ['ionic'])
+    angular
+
+        .module('app', [
+            'ionic',
+
+            'app.auth'
+        ])
 
         .run(function ($ionicPlatform) {
             $ionicPlatform.ready(function () {

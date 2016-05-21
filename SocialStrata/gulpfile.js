@@ -18,7 +18,7 @@ gulp.task('default', ['sass', 'js']);
 
 
 gulp.task('js', function () {
-    gulp.src(['app/app.module.js', 'app/**/*.js'])
+    gulp.src(['app/modules/**/*.js','app/app.module.js', 'app/**/*.js'])
         .pipe(sourcemaps.init())
         .pipe(concat('app.bundle.js'))
         .pipe(ngAnnotate())
