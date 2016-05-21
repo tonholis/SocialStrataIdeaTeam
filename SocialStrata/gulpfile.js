@@ -11,14 +11,15 @@ var ngAnnotate = require('gulp-ng-annotate');
 var sourcemaps = require('gulp-sourcemaps');
 
 var paths = {
-    sass: ['./scss/**/*.scss']
+    sass: ['./scss/**/*.scss'],
+    js: ['app/modules/**/*.module.js', 'app/modules/**/*.js','app/app.module.js', 'app/**/*.js']
 };
 
 gulp.task('default', ['sass', 'js']);
 
 
 gulp.task('js', function () {
-    gulp.src(['app/modules/**/*.module.js', 'app/modules/**/*.js','app/app.module.js', 'app/**/*.js'])
+    gulp.src(paths.js)
         .pipe(sourcemaps.init())
         .pipe(concat('app.bundle.js'))
         .pipe(ngAnnotate())
@@ -42,6 +43,7 @@ gulp.task('sass', function (done) {
 
 gulp.task('watch', function () {
     gulp.watch(paths.sass, ['sass']);
+    gulp.watch(paths.js, ['js']);
 });
 
 gulp.task('install', ['git-check'], function () {
