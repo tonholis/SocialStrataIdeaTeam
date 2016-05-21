@@ -5,7 +5,7 @@
 
         .module('app')
 
-        .config(function($stateProvider, $urlRouterProvider) {
+        .config(function ($stateProvider, $urlRouterProvider) {
 
             $stateProvider
 
@@ -33,9 +33,36 @@
                     }
                 })
 
+                .state('app.profile', {
+                    url: '/profile',
+                    resolve: {
+                        user: function (authService) {
+                            return authService.user()
+                        }
+                    },
+                    views: {
+                        'menuContent': {
+                            templateProvider: function ($timeout, $stateParams, user) {
+                                console.log(user);
+                                var view = null;
+
+                                if (user.type == 1) {
+                                    view = 'views/profile/landlord.html'
+                                } else {
+                                    view = 'views/profile/tenant.html'
+                                }
+
+                                console.log(view);
+
+                                return view;
+                            }
+                        }
+                    }
+                })
+
                 .state('login', {
-                    url:"/login",
-                    templateUrl:"views/auth/login.html"
+                    url: "/login",
+                    templateUrl: "views/auth/login.html"
                 });
 
             //fallback

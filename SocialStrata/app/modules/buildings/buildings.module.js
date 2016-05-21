@@ -1,5 +1,5 @@
 (function () {
     'use strict';
 
-    angular.module("app.buildings", []);
+    angular.module("app.buildings", ['app.firebase']);
 })();
