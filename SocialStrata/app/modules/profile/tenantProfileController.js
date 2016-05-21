@@ -7,6 +7,7 @@
 
 
     function tenantProfileController($scope) {
+		console.log("tenantProfileController");
 
     }
 })();

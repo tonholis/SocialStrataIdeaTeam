@@ -6,19 +6,34 @@
         .controller("authController", authController);
 
 
-    function authController($scope, authService, $ionicPopup, $state) {
+    function authController($scope, authService, $ionicPopup, $ionicLoading, $state, $timeout) {
 
         $scope.data = {};
 
         $scope.login = function() {
-			authService.login($scope.data.username, $scope.data.password).success(function(data) {
-                $state.go('app.buildings');
-            }).error(function(data) {
+			$ionicLoading.show();
+
+			authService.login($scope.data.username, $scope.data.password).success(function(user) {
+				$ionicLoading.hide();
+				$state.go('app.buildings');
+
+            }).error(function(error) {
+				$timeout(function() {
+					$ionicLoading.hide();
+				}, 100);
+
                 var alertPopup = $ionicPopup.alert({
                     title: 'Login failed!',
-                    template: 'Please check your credentials!'
+                    template: error.message //'Please check your credentials!'
                 });
             });
+        }
+
+		$scope.facebookLogin = function() {
+			var alertPopup = $ionicPopup.alert({
+				title: 'Facebook login',
+				template: 'Planned!'
+			});
         }
     }
 })();
