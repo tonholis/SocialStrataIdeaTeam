@@ -8,7 +8,8 @@
 
             'app.auth',
             'app.sidemenu',
-            'app.buildings'
+            'app.buildings',
+            'app.profiles'
         ])
 
         .run(function ($ionicPlatform) {
