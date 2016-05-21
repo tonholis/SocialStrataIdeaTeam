@@ -1,9 +1,15 @@
 <ion-view view-title="Building" ng-controller="buildingController">
-    <ion-content>
-        <ion-list>
-            <ion-item ng-repeat="channel in channels">
-                {{channel.name}}
-            </ion-item>
-        </ion-list>
-    </ion-content>
+	<ion-content>
+		<ion-list>
+			<ion-item ng-repeat="(key, channel) in channels" ui-sref="app.building({channellId : key})">
+				{{channel.name}}
+			</ion-item>
+		</ion-list>
+		
+		<div class="card" ng-show="!channels">
+			<div class="item item-text-wrap">
+				No channels available.
+			</div>
+		</div>
+	</ion-content>
 </ion-view>

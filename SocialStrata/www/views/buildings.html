@@ -1,9 +1,14 @@
 <ion-view view-title="Buildings" ng-controller="buildingsController">
-    <ion-content>
-        <ion-list>
-            <ion-item ng-repeat="building in buildings" ui-sref="app.building({{building.id}})">
-                {{building.name}}
-            </ion-item>
-        </ion-list>
-    </ion-content>
+	<ion-content>
+		<ion-list>
+			<ion-item ng-repeat="(key, building) in buildings" ui-sref="app.building({buildingId : key})">
+				{{building.name}}
+			</ion-item>
+			<div class="card" ng-show="!buildings">
+				<div class="item item-text-wrap">
+					No buildings available.
+				</div>
+			</div>
+		</ion-list>
+	</ion-content>
 </ion-view>
