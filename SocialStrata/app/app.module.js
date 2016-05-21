@@ -6,7 +6,9 @@
         .module('app', [
             'ionic',
 
-            'app.auth'
+            'app.auth',
+            'app.sidemenu',
+            'app.groups'
         ])
 
         .run(function ($ionicPlatform) {
