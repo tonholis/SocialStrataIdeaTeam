@@ -9,7 +9,7 @@
         var service = {};
 		
         service.getMessagesRef = function () {
-            return firebase.database().ref('messages');
+            return firebaseService.fb.database().ref('messages');
         };
 
         service.addMessage = function (message) {

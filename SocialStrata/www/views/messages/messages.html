@@ -1,0 +1,16 @@
+<ion-view view-title="Direct Messages" ng-controller="directMessagesController">
+    <ion-content>
+        <ion-list>
+            <ion-item class="item-avatar" ng-repeat="(key, contact) in contacts"
+                      ui-sref="app.messages({contactId : key})">
+                {{contact.username}}
+            </ion-item>
+        </ion-list>
+
+        <div class="card" ng-show="!channels">
+            <div class="item item-text-wrap">
+                No messages available
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

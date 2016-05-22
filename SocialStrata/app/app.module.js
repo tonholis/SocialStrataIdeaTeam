@@ -13,7 +13,8 @@
             'app.sidemenu',
             'app.buildings',
             'app.profiles',
-            'app.messages'
+            'app.messages',
+            'app.directmessages'
         ])
 		
 		.value("user", null)

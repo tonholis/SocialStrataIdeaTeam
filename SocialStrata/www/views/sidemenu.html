@@ -19,22 +19,21 @@
         <ion-content>
             <ion-list>
                 <ion-item menu-close ui-sref="app.buildings" class="item-avatar">
-                  <h3>{{building.name}}</h3>
-				  <p>{{building.address}}</p>
-               </ion-item>
-			   <ion-item menu-close  class="positive" ui-sref="login">
-                    <i class="ion ion-log-out"></i> Logout
+                    <h3>{{building.name}}</h3>
+
+                    <p>{{user.displayName}}</p>
                 </ion-item>
-                
-                <ion-item menu-close  class="royal" ui-sref="app.people">
+                <ion-item menu-close ui-sref="app.messages">
                     Direct Messages
                 </ion-item>
-                
-                <ion-item class="stable-bg">
+                <ion-item>
                     <i>Chat channels</i>
                 </ion-item>
-                <ion-item menu-close class="positive" ng-repeat="(key,channel) in channels" ng-click="openChannel(key)" >
+                <ion-item menu-close class="positive" ng-repeat="(key,channel) in channels" ng-click="openChannel(key)">
                     {{ channel }}
+                </ion-item>
+                <ion-item menu-close ui-sref="login">
+                    <i class="ion ion-log-out"></i> Logout
                 </ion-item>
             </ion-list>
         </ion-content>

@@ -239,7 +239,7 @@
             }
         };
 
-        // I emit this event from the monospaced.elastic directive, read line 480
+
         $scope.$on('taResize', function (e, ta) {
             console.log('taResize');
             if (!ta) return;
