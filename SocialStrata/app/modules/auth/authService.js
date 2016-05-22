@@ -24,11 +24,10 @@
 			
 			globalsService.user = usr;
 			
-			firebase.database().ref('users/' + usr.uid).set({
-				name: usr.displayName,
-				email: usr.email,
-				lastActivity: new Date().getTime()
-			});
+			var ref = firebase.database().ref('users/' + usr.uid);
+			ref.child('name').set(usr.displayName);
+			ref.child('email').set(usr.email);
+			ref.child('lastActivity').set(new Date().getTime());
 		});
 
 		return {
