@@ -28,7 +28,7 @@
                 if (window.StatusBar) {
                     StatusBar.styleDefault();
                 }
-
+				//to get user info
                 $rootScope.$emit('user-changed');
             });
         });

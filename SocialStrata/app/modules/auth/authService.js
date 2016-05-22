@@ -17,7 +17,10 @@
 		
 		$rootScope.$on('user-changed', function() {
 			var usr = firebase.auth().currentUser;
-			if (usr == null) return;
+			if (usr == null) {
+				globalsService.user = null;
+				return
+			};
 			
 			globalsService.user = usr;
 			

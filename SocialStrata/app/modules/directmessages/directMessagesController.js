@@ -1,37 +1,35 @@
-(function () {
+(function() {
     'use strict';
 
     angular
         .module('app.directmessages')
         .controller('directMessagesController', [
             '$scope',
+			'$state',
             '$ionicLoading',
             'directMessagesService',
-            'authService',
+            'globalsService',
             directMessagesController
         ]);
 
-    function directMessagesController($scope, $ionicLoading, contactsService, authService) {
-        var user = authService.user();
-
-        console.log(user.uid);
-
-        var ref = contactsService.getUserContacts(user.uid);
-
-        console.log(ref);
+    function directMessagesController($scope, $state, $ionicLoading, contactsService, globalsService) {
+		if (!globalsService.user) {
+			$state.go('login');
+			return;
+		}
+        
+		var user = globalsService.user;
+		console.log(user.uid);
 
         $ionicLoading.show();
-        ref.on("value", function (snapshot) {
-            var val = snapshot.val();
 
-            if (val) {
-                $scope.contacts = angular.extend(val.common, val.services);
-            }
-            else {
-                console.log(val);
-            }
+        var ref = contactsService.getUserContacts(user.uid);
+        ref.on("value", function(snapshot) {
+			$scope.contacts = snapshot.val();
             $ionicLoading.hide();
-        }, function (errorObject) {
+			
+			console.log($scope.contacts);
+        }, function(errorObject) {
             console.log("error reading: " + errorObject.code);
             $ionicLoading.hide();
             var alertPopup = $ionicPopup.alert({
@@ -40,6 +38,6 @@
             });
         });
 
-        console.log($scope.contacts);
+        
     }
 })();
