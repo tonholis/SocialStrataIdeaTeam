@@ -14,7 +14,8 @@
             'app.sidemenu',
             'app.buildings',
             'app.profiles',
-            'app.messages'
+            'app.messages',
+            'app.directmessages'
         ])
 
         .run(function($ionicPlatform, $timeout, $rootScope) {

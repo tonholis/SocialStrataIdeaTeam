@@ -52,6 +52,17 @@
                     }
                 })
 
+                .state('app.messages', {
+                    url: '/messages',
+                    cache: false,
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'views/messages/messages.html'
+                        }
+                    }
+                })
+
+
                 .state('app.logout', {
                     url: "/login",
                     templateProvider: function (authService, $state) {
