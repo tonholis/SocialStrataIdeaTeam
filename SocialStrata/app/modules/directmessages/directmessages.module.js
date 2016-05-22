@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app.directmessages', []);
+        .module('app.directmessages', ['app.messages']);
 })();
 
 
