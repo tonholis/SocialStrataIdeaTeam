@@ -8,7 +8,8 @@
 			
 			'app.firebase',
             'app.auth',
-            'app.sidemenu',
+            'app.message',
+			'app.sidemenu',
             'app.buildings',
             'app.profiles'
         ])

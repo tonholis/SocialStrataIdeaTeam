@@ -14,6 +14,17 @@
 	
     function authService($q, $rootScope, firebaseService, user) {
 		var auth = firebaseService.fb.auth();
+		
+		$rootScope.$on('name-changed', function() {
+			var usr = firebase.auth().currentUser;
+			if (usr == null) return;
+			
+			firebase.database().ref('users/' + usr.uid).set({
+				name: usr.displayName,
+				email: usr.email,
+				lastActivity: new Date().getTime()
+			});
+		});
 
 		return {
             login: function(username, password) {
@@ -23,7 +34,7 @@
 				var successHandler = function(info) {
 					info.isNew = info.displayName == null;
 					deferred.resolve(info);
-					
+									
 					user = firebase.auth().currentUser;
 					$rootScope.$broadcast('name-changed');
 				};

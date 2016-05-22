@@ -1,14 +1,13 @@
 (function() {
     'use strict';
 
-    angular.module("app.profiles")
+    angular.module("app.users")
 
-        .service("profilesService", profilesService);
+        .service("usersService", usersService);
 
 
-    function profilesService($q, $rootScope, authService, user) {
-		
-        return {
+    function usersService($q, authService) {
+	    return {
             updateProfile: function(data) {
                 var deferred = $q.defer();
 

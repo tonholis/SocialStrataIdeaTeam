@@ -6,8 +6,8 @@
         .controller("sidemenuController", sidemenuController);
 
 
-    function sidemenuController($scope, authService) {
-		$scope.$on('name-changed', function(event, args) {
+    function sidemenuController($scope, authService, messagesService) {
+		$scope.$on('name-changed', function() {
 			$scope.displayName = authService.user().displayName;
 		});
 		
