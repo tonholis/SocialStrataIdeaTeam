@@ -6,7 +6,7 @@
         .controller("profileController", profileController);
 
 
-    function profileController($scope, $ionicLoading, $ionicPopup, authService) {
+    function profileController($scope, $ionicLoading, $ionicPopup, authService, profilesService) {
 
 		var user = authService.user();
 		
@@ -18,7 +18,7 @@
         $scope.update = function() {
 			$ionicLoading.show();
 
-			authService.updateProfile($scope.data).then(function success(msg) {
+            profilesService.updateProfile($scope.data).then(function success(msg) {
 				$ionicLoading.hide();
 
 				$ionicPopup.alert({

@@ -53,22 +53,7 @@
                 }
                 return promise;
             },
-			
-			updateProfile: function(data) {
-                var deferred = $q.defer();
-				
-				auth.currentUser.updateProfile(data)
-					.then(function success() {
-						deferred.resolve("Profile updated!");
-						user = firebase.auth().currentUser;
-						$rootScope.$broadcast('name-changed');
-					}, function error(error) {
-						deferred.reject(error);
-					});
-                
-				return deferred.promise;
-            },
-			
+
 			logout: function () {
 				auth.signOut();
 				user = firebase.auth().currentUser;
