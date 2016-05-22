@@ -1,6 +1,6 @@
 <ion-side-menus enable-menu-with-back-views="true" ng-controller="sidemenuController">
 	<ion-side-menu-content>
-		<ion-nav-bar class="bar-balanced">
+		<ion-nav-bar>
 			<ion-nav-back-button>
 			</ion-nav-back-button>
 
@@ -13,7 +13,7 @@
 	</ion-side-menu-content>
 
     <ion-side-menu side="left">
-        <ion-header-bar class="bar-balanced">
+        <ion-header-bar>
             <h1 class="title">Social Strata</h1>
         </ion-header-bar>
         <ion-content>
@@ -22,17 +22,17 @@
                     <h3>{{building.name}}</h3>
                     <p>{{user.displayName}}</p>
                 </ion-item>
-				<ion-item menu-close class="positive" ui-sref="app.profile">
+				<ion-item menu-close ui-sref="app.profile">
 					 My profile
 				</ion-item>
-                <ion-item menu-close class="assertive" ui-sref="app.messages">
+                <ion-item menu-close ui-sref="app.messages">
                     Direct Messages
                 </ion-item>
                 
 				<ion-item class="item-divider">
                     <i>Chat channels</i>
                 </ion-item>
-                <ion-item menu-close class="positive" ng-repeat="(key,channel) in channels" ng-click="openChannel(key)">
+                <ion-item menu-close ng-repeat="(key,channel) in channels" ng-click="openChannel(key)">
                     {{ channel }}
                 </ion-item>
                 

@@ -2,7 +2,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 @import "../www/lib/ionic/scss/ionic";
 @import "modules/general/variables";
-
+@import "modules/general/utils";
+@import "modules/general/error";
 
 @import "modules/messages/chat";
-

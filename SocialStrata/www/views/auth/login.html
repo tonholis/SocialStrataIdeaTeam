@@ -1,17 +1,29 @@
 <ion-view view-title="Login" name="login-view" ng-controller="authController">
-    <ion-content class="padding">
-        <div class="list list-inset">
-            <label class="item item-input">
-                <input type="text" placeholder="Username" ng-model="data.username">
+    <ion-content class="padding-top">
+        <div class="padding card text-center">
+            <h1 class="balanced">Social Strata</h1>
+            <h4 class="greyin">Be social in your building!</h4>
+        </div>
+        <div class="list padding-top">
+            <label class="item item-input item-floating-label balanced">
+                <span class="input-label">Email</span>
+                <input name="txtemail" type="email" ng-model="data.username" placeholder="Email"
+                       ng-minlength="5"
+                       ng-maxlength="30"
+                       required>
             </label>
-            <label class="item item-input">
-                <input type="password" placeholder="Password" ng-model="data.password">
+            <label class="item item-input item-floating-label balanced">
+                <span class="input-label">Password</span>
+                <input name="txtPassword" type="password" ng-model="data.password" placeholder="Password"
+                       ng-minlength="5"
+                       ng-maxlength="30"
+                       required>
             </label>
         </div>
-        <button class="button button-block button-dark" ng-click="login()">Login</button>
-		
-		<p class="text-center">Or</p>
-		
-		<button class="button button-block button-positive" ng-click="facebookLogin()">Login with Facebook</button>
+        <div class="padding-top">
+            <button type="button" ng-click="login()" class="button button-block button button-balanced">
+                Login
+            </button>
+        </div>
     </ion-content>
 </ion-view>
