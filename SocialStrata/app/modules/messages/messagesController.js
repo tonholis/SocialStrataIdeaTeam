@@ -43,6 +43,7 @@
 		$scope.channelKey = this.channelKey; //to use in sendMessage
         $scope.toUser;
         $scope.messages = [];
+		$scope.inputMessage = '';
 		$scope.sendMessage = function(msg) {
 			self.doSendMessage(self, msg);
 		};
@@ -124,19 +125,17 @@
             .orderByChild('channel').equalTo(self.channelKey)
             .limitToLast(100)
             .on('value', function(s) {
-                console.log(s.val());
                 self.$scope.messages = s.val();
+				
+				self.$timeout(function() {
+					self.viewScroll.scrollBottom(true);
+				}, 10);
             });
     };
 
     MessagesController.prototype.doSendMessage = function(self, msg) {
-        // if you do a web service call this will be needed as well as before the viewScroll calls
-        // you can't see the effect of this in the browser it needs to be used on a real device
-        // for some reason the one time blur event is not firing in the browser but does on devices
-        // keepKeyboardOpen();
-
         var message = {
-            date: new Date(),
+            date: new Date().toISOString(),
             channel: self.channelKey,
             text: msg,
             userName: self.$scope.user.name,
@@ -149,6 +148,8 @@
 
 		var msgPath = ['buildings', self.buildingKey, 'messages'].join('/');
         firebase.database().ref(msgPath).push(message);
+		
+		self.$scope.inputMessage = '';
 
         self.$timeout(function() {
             self.keepKeyboardOpen();
@@ -157,7 +158,8 @@
     };
 
     MessagesController.prototype.keepKeyboardOpen = function() {
-        this.txtInput.one('blur', function() {
+        var self = this;
+		self.txtInput.one('blur', function() {
             console.log('textarea blur, focus back on it');
             self.txtInput[0].focus();
         });
