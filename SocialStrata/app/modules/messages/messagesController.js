@@ -6,13 +6,15 @@
 
         .controller('messagesController', ['$scope', '$rootScope', '$state',
             '$stateParams', '$ionicActionSheet',
-            '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$interval',
+            '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$interval', 'channelsService',
             messagesController
         ])
 
     function messagesController($scope, $rootScope, $state, $stateParams, $ionicActionSheet,
-                                $ionicPopup, $ionicScrollDelegate, $timeout, $interval) {
-
+                                $ionicPopup, $ionicScrollDelegate, $timeout, $interval, channelsService) {
+									
+		$scope.channelName = channelsService.channels[$state.params.channelId];							
+									
         // mock acquiring data via $stateParams
         $scope.toUser = {
             _id: '534b8e5aaa5e7afc1b23e69b',

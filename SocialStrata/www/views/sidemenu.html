@@ -31,22 +31,10 @@
                 </ion-item>
                 
                 <ion-item class="stable-bg">
-                    <i>Channels</i>
+                    <i>Chat channels</i>
                 </ion-item>
-                <ion-item menu-close class="positive" ng-click="channel('parking')">
-                    Parking Garage
-                </ion-item>
-                <ion-item menu-close class="positive" ng-click="channel('garden')">
-                    Garden
-                </ion-item>
-                <ion-item menu-close class="positive" ng-click="channel('water')">
-                    Water
-                </ion-item>
-                <ion-item menu-close  class="positive" ng-click="channel('lostfound')">
-                    Lost &amp; Found
-                </ion-item>
-                <ion-item menu-close  class="positive" ng-click="channel('maintenace')">
-                    Request Maintenance
+                <ion-item menu-close class="positive" ng-repeat="(key,channel) in channels" ng-click="openChannel(key)" >
+                    {{ channel }}
                 </ion-item>
             </ion-list>
         </ion-content>

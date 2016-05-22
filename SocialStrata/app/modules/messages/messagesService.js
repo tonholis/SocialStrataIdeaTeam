@@ -7,7 +7,7 @@
 
     function messagesService(firebaseService) {
         var service = {};
-
+		
         service.getMessagesRef = function () {
             return firebase.database().ref('messages');
         };

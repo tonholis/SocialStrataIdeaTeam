@@ -9,6 +9,7 @@
 
             'app.firebase',
             'app.auth',
+			'app.channels',
             'app.sidemenu',
             'app.buildings',
             'app.profiles',

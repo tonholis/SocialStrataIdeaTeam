@@ -6,9 +6,9 @@
         .controller("buildingController", buildingController);
 
 
-    function buildingController($scope, $ionicLoading, $stateParams, buildingChannelsService) {
+    function buildingController($scope, $ionicLoading, $stateParams, channelsService) {
 
-        var ref = buildingChannelsService.getChannelsFrom($stateParams.buildingId);
+        var ref = channelsService.getChannelsFrom($stateParams.buildingId);
 
         $ionicLoading.show();
         ref.on("value", function (snapshot) {

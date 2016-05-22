@@ -6,10 +6,8 @@
         .controller("sidemenuController", sidemenuController);
 
 
-    function sidemenuController($scope, $state) {
-		// $scope.$on('name-changed', function() {
-		// 	$scope.displayName = authService.user().displayName;
-		// });
+    function sidemenuController($scope, $state, channelsService) {
+		$scope.channels = channelsService.channels;
 		
 		$scope.building = {
 			name: "Select a building",
@@ -22,8 +20,8 @@
 			
 		});
 		
-		$scope.channel = function(channelKey) {
-			$state.go('app.channel', { channelId: channelKey});
+		$scope.openChannel = function(key) {
+			$state.go('app.channel', { channelId: key });
 		};
     }
 })();
