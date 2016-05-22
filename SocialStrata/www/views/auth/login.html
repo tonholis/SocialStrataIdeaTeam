@@ -1,5 +1,11 @@
 <ion-view view-title="Login" name="login-view" ng-controller="authController">
     <ion-content class="padding">
+		<div class="padding card text-center">
+			<h1 class="balanced">Social Strata</h1>
+			<h4>Be social in your building!</h4>
+		</div>
+		
+		<h4>Login</h4>
         <div class="list list-inset">
             <label class="item item-input">
                 <input type="text" placeholder="Username" ng-model="data.username">
@@ -8,7 +14,7 @@
                 <input type="password" placeholder="Password" ng-model="data.password">
             </label>
         </div>
-        <button class="button button-block button-dark" ng-click="login()">Login</button>
+        <button class="button button-block button-dark" ng-click="login()">Enter with your email</button>
 		
 		<p class="text-center">Or</p>
 		
