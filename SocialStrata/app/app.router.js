@@ -35,7 +35,7 @@
                 })
 
                 .state('app.channel', {
-                    url: '/buildings/:buildingId/:channelId',
+                    url: '/channel/:channelId',
                     views: {
                         'menuContent': {
                             templateUrl: 'views/messages/chat.html'

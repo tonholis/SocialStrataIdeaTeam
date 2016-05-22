@@ -19,10 +19,11 @@
 		$scope.$on('building-selected', function(event, data) {
 			$scope.building.name = data.name;
 			$scope.building.address = data.address;
+			
 		});
 		
 		$scope.channel = function(channelKey) {
-			//$state.go('app.channel', { buildingId: channelKey});
+			$state.go('app.channel', { channelId: channelKey});
 		};
     }
 })();
