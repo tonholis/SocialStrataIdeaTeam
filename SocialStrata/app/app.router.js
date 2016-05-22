@@ -62,6 +62,15 @@
                     }
                 })
 
+                .state('app.message', {
+                    url: '/message/:userId',
+                    cache: false,
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'views/messages/chat.html'
+                        }
+                    }
+                })
 
                 .state('app.logout', {
                     url: "/login",
