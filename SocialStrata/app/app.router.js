@@ -4,14 +4,14 @@
     angular
 
         .module('app')
-		
+
         .config(function ($stateProvider, $urlRouterProvider) {
 
             $stateProvider
 
                 .state('app', {
                     url: '/app',
-					cache: false,
+                    cache: false,
                     abstract: true,
                     templateUrl: 'views/sidemenu.html',
                 })
@@ -34,28 +34,37 @@
                     }
                 })
 
-                .state('app.profile', {
-                    url: '/profile',
-					cache: false,
+                .state('app.channel', {
+                    url: '/buildings/:buildingId/:channelId',
                     views: {
                         'menuContent': {
-							templateUrl: 'views/profile/profile.html'
+                            templateUrl: 'views/messages/chat.html'
                         }
                     }
                 })
 
-				.state('app.logout', {
+                .state('app.profile', {
+                    url: '/profile',
+                    cache: false,
+                    views: {
+                        'menuContent': {
+                            templateUrl: 'views/profile/profile.html'
+                        }
+                    }
+                })
+
+                .state('app.logout', {
                     url: "/login",
                     templateProvider: function (authService, $state) {
-						authService.logout();
-						$state.go('login');
-					}
+                        authService.logout();
+                        $state.go('login');
+                    }
                 })
                 .state('login', {
                     url: "/login",
                     templateUrl: "views/auth/login.html"
                 });
-				
+
 
             //fallback
             $urlRouterProvider.otherwise('/login');

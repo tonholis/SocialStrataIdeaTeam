@@ -5,20 +5,23 @@
 
         .module('app', [
             'ionic',
-			
-			'app.firebase',
+            'monospaced.elastic',
+
+            'app.firebase',
             'app.auth',
-            'app.message',
-			'app.sidemenu',
+            'app.sidemenu',
             'app.buildings',
-            'app.profiles'
+            'app.profiles',
+            'app.messages'
         ])
 		
 		.value("user", null)
 		.value("selectedBuilding", null)
 
+        .value("user", null)
+
         .run(function ($ionicPlatform, $timeout, $rootScope) {
-			$ionicPlatform.ready(function () {
+            $ionicPlatform.ready(function () {
                 if (window.cordova && window.cordova.plugins.Keyboard) {
                     cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
 
@@ -27,8 +30,8 @@
                 if (window.StatusBar) {
                     StatusBar.styleDefault();
                 }
-				
-				$rootScope.$broadcast('name-changed');
+
+                $rootScope.$broadcast('name-changed');
             });
         });
 })();
