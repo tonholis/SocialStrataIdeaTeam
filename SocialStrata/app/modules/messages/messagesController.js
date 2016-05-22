@@ -31,7 +31,9 @@
 
         //custom properties
         this.buildingKey = globalsService.building.key;
-        this.channelKey = this.$stateParams.channelId;
+        this.channelKey = $stateParams.channelId;
+		this.mode = $stateParams.userId;
+		this.mode = $stateParams.userId ? "chat" : "channel";
         this.messageRef;
 
         $scope.user = {
@@ -81,21 +83,42 @@
     //Check if is a Common Room or Direct Message
     MessagesController.prototype.init = function() {
         var self = this;
+		
+		if (self.mode == "channel")
+		{
+			var channelPath = ['buildings', this.buildingKey, 'channels', this.$stateParams.channelId].join('/');
+			console.log(channelPath);
 
-        var channelPath = ['buildings', this.buildingKey, 'channels', this.$stateParams.channelId].join('/');
-        console.log(channelPath);
+			var channelRef = firebase.database().ref(channelPath);
+			channelRef.once('value', function(snapshot) {
+				self.channel = snapshot.val();
 
-        var channelRef = firebase.database().ref(channelPath);
-        channelRef.once('value', function(snapshot) {
-            self.channel = snapshot.val();
+				if (self.channel.type == "direct") { //direct message
+					self.setContact(self.channel.user);
+				}
+				else { //Common room
+					self.getLastMessages();
+				}
+			});
+		}
+		else { //chat
+			var channelPath = ['users', this.buildingKey, 'channels', this.$stateParams.channelId].join('/');
+			console.log(channelPath);
 
-            if (self.channel.type == "direct") { //direct message
-                self.setContact(self.channel.user);
-            }
-            else { //Common room
-                self.getLastMessages();
-            }
-        });
+			var channelRef = firebase.database().ref(channelPath);
+			channelRef.once('value', function(snapshot) {
+				self.channel = snapshot.val();
+
+				if (self.channel.type == "direct") { //direct message
+					self.setContact(self.channel.user);
+				}
+				else { //Common room
+					self.getLastMessages();
+				}
+			});
+			
+		}
+
     };
 
     MessagesController.prototype.setContact = function(uid) {
