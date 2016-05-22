@@ -1,5 +1,6 @@
 <ion-view view-title="Buildings" ng-controller="buildingsController">
 	<ion-content>
+		<h4>Which building you are?</h4>
 		<ion-list>
 			<ion-item ng-repeat="(key, building) in buildings" ng-click="select(key, building)" class="item-icon-right">
 				{{building.name}}
