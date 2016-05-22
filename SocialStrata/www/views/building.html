@@ -1,7 +1,7 @@
 <ion-view view-title="Building" ng-controller="buildingController">
 	<ion-content>
 		<ion-list>
-			<ion-item ng-repeat="(key, channel) in channels" ui-sref="app.building({channellId : key})">
+			<ion-item ng-repeat="(key, channel) in channels" ui-sref="app.channel({channelId : key})">
 				{{channel.name}}
 			</ion-item>
 		</ion-list>

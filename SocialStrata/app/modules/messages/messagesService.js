@@ -2,20 +2,20 @@
     'use strict';
 
     angular
-        .module('app.message')
+        .module('app.messages')
         .service('messagesService', messagesService);
 
-    function messagesService() {
-		var obj = {};
-		
-		obj.getMessagesRef = function () {
-			return firebase.database().ref('messages');
-		};
-		
-		obj.getMessagesRef = function () {
-			return firebase.database().ref('messages');
-		};
-		
-        return obj;
+    function messagesService(firebaseService) {
+        var service = {};
+
+        service.getMessagesRef = function () {
+            return firebase.database().ref('messages');
+        };
+
+        service.addMessage = function (message) {
+            return firebaseService.fb.database().push(message);
+        }
+
+        return service;
     }
 })();
