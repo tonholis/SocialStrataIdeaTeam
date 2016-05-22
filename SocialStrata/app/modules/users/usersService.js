@@ -15,7 +15,7 @@
                     .then(function success() {
                         deferred.resolve("Profile updated!");
                         user = firebase.auth().currentUser;
-                        $rootScope.$broadcast('name-changed');
+                        $rootScope.$broadcast('user-changed');
                     }, function error(error) {
                         deferred.reject(error);
                     });

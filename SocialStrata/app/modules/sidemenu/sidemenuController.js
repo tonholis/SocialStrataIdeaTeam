@@ -17,7 +17,6 @@
 		$scope.$on('building-selected', function(event, data) {
 			$scope.building.name = data.name;
 			$scope.building.address = data.address;
-			
 		});
 		
 		$scope.openChannel = function(key) {

@@ -17,13 +17,12 @@ var paths = {
 
 gulp.task('default', ['sass', 'js']);
 
-
 gulp.task('js', function () {
     gulp.src(paths.js)
         .pipe(sourcemaps.init())
         .pipe(concat('app.bundle.js'))
         .pipe(ngAnnotate())
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest('./www/js/'))
 });
@@ -40,6 +39,7 @@ gulp.task('sass', function (done) {
         .pipe(gulp.dest('./www/css/'))
         .on('end', done);
 });
+
 
 gulp.task('watch', function () {
     gulp.watch(paths.sass, ['sass']);

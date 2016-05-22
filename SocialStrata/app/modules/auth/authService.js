@@ -12,12 +12,14 @@
 		return auth.createUserWithEmailAndPassword(email, password);
 	}
 	
-    function authService($q, $rootScope, user, buildingsService, selectedBuilding) {
+    function authService($q, $rootScope, buildingsService, globalsService) {
 		var auth = firebase.auth();
 		
-		$rootScope.$on('name-changed', function() {
+		$rootScope.$on('user-changed', function() {
 			var usr = firebase.auth().currentUser;
 			if (usr == null) return;
+			
+			globalsService.user = usr;
 			
 			firebase.database().ref('users/' + usr.uid).set({
 				name: usr.displayName,
@@ -35,8 +37,7 @@
 					info.isNew = info.displayName == null;
 					deferred.resolve(info);
 									
-					user = firebase.auth().currentUser;
-					$rootScope.$emit('name-changed');
+					$rootScope.$emit('user-changed');
 				};
 
 				var errorHandler = function(error) {
@@ -67,7 +68,7 @@
 
 			logout: function () {
 				auth.signOut();
-				user = firebase.auth().currentUser;
+				globalsService.user = null;
 			},
 
             user: function() {

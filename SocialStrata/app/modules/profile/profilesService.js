@@ -6,7 +6,7 @@
         .service("profilesService", profilesService);
 
 
-    function profilesService($q, $rootScope, authService, user) {
+    function profilesService($q, $rootScope, authService) {
 		
         return {
             updateProfile: function(data) {
@@ -15,8 +15,7 @@
                 authService.user().updateProfile(data)
                     .then(function success() {
                         deferred.resolve("Profile updated!");
-                        user = firebase.auth().currentUser;
-                        $rootScope.$broadcast('name-changed');
+                        $rootScope.$broadcast('user-changed');
                     }, function error(error) {
                         deferred.reject(error);
                     });

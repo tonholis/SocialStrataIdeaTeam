@@ -6,15 +6,15 @@
         .controller("buildingsController", buildingsController);
 
 
-    function buildingsController($scope, $ionicLoading, buildingsService, selectedBuilding) {
+    function buildingsController($scope, $ionicLoading, buildingsService, globalsService) {
         var ref = buildingsService.getBuildings();
 		
-		$scope.selectedKey = selectedBuilding ? selectedBuilding.key : null;
+		$scope.selectedKey = globalsService.building ? globalsService.building.key : null;
 		
 		$scope.select = function(key, building) {
 			$scope.selectedKey = building.key = key;
-			selectedBuilding = building;
-			$scope.$emit("building-selected", selectedBuilding);
+			globalsService.building = building;
+			$scope.$emit("building-selected", building);
 		};		
 
         $ionicLoading.show();

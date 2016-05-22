@@ -15,7 +15,7 @@
             var val = snapshot.val();
 
             if (val) {
-                $scope.channels = angular.extend(val.common, val.services);
+                $scope.channels = val.channels;
             }
             else {
 

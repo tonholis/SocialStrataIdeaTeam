@@ -1,0 +1,21 @@
+{
+	"landlord": {
+		"type": "direct",
+		"user": "QkWXfccgiyPsZZ1ByW4ORljpVzT2"
+	},
+	"general": {
+		"type": "common"
+	},
+	"parking": {
+		"type": "common"
+	},
+	"garden": {
+		"type": "common"
+	},
+	"lost&found": {
+		"type": "common"
+	},
+	"maintenance": {
+		"type": "common"
+	}
+}
