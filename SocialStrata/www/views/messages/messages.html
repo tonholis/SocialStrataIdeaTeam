@@ -3,7 +3,7 @@
 
         <ion-list>
             <ion-item class="item-avatar" ng-repeat="(key, contact) in contacts"
-                      ui-sref="app.message({contactId : key})">
+                      ui-sref="app.message({userId : key, name: contact.name })">
                 <img src="http://ionicframework.com/img/docs/mcfly.jpg">
                 <h2>{{contact.name}}</h2>
                 <p>last message</p>

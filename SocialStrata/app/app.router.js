@@ -63,7 +63,7 @@
                 })
 
                 .state('app.message', {
-                    url: '/message/:userId',
+                    url: '/message/:userId/:name',
                     cache: false,
                     views: {
                         'menuContent': {

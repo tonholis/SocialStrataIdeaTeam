@@ -26,14 +26,14 @@
         this.channelsService = channelsService;
         this.globalsService = globalsService;
 
+        this.mode = $stateParams.userId ? "chat" : "channel";
         if (!this.validate())
             return false;
 
         //custom properties
-        this.buildingKey = globalsService.building.key;
+        this.buildingKey = globalsService.building ? globalsService.building.key : null;
         this.channelKey = $stateParams.channelId;
-		this.toUserId = $stateParams.userId;
-		this.mode = $stateParams.userId ? "chat" : "channel";
+        this.toUserId = $stateParams.userId;
         this.messageRef;
 
         $scope.user = {
@@ -42,6 +42,7 @@
             name: globalsService.user.displayName ? globalsService.user.displayName : 'Undefined'
         };
 
+        $scope.title = "...";
         $scope.channelKey = this.channelKey; //to use in sendMessage
         $scope.toUser;
         $scope.messages = [];
@@ -72,7 +73,7 @@
             return false;
         }
 
-        if (!this.globalsService.building) {
+        if (!this.globalsService.building && this.mode == "channel") {
             this.$state.go('app.buildings');
             return false;
         }
@@ -83,27 +84,27 @@
     //Check if is a Common Room or Direct Message
     MessagesController.prototype.init = function() {
         var self = this;
-		
-		if (self.mode == "channel")
-		{
+
+        if (self.mode == "channel") {
+            self.$scope.title = this.channelsService.channels[this.$stateParams.channelId];
+            
 			var channelPath = ['buildings', this.buildingKey, 'channels', this.$stateParams.channelId].join('/');
-			console.log(channelPath);
-
 			var channelRef = firebase.database().ref(channelPath);
-			channelRef.once('value', function(snapshot) {
-				self.channel = snapshot.val();
+            channelRef.once('value', function(snapshot) {
+                self.channel = snapshot.val();
 
-				if (self.channel.type == "direct") { //direct message
-					self.setContact(self.channel.user);
-				}
-				else { //Common room
-					self.getLastMessages();
-				}
-			});
-		}
-		else { //chat
-			self.setContact(self.toUserId);
-		}
+                if (self.channel.type == "direct") { //direct message
+                    self.setContact(self.channel.user);
+                }
+                else { //Common room
+                    self.getLastMessages();
+                }
+            });
+        }
+        else { //chat
+			self.$scope.title = this.$stateParams.name;
+            self.setContact(self.toUserId);
+        }
 
     };
 
@@ -111,14 +112,14 @@
         var self = this;
 
         var contactPath = ['users', uid].join('/');
-        console.log(contactPath);
 
         firebase.database().ref(contactPath).once('value', function(snapshot) {
             var contact = snapshot.val();
+            var name = contact && contact.displayName ? contact.displayName : 'Undentified';
             self.$scope.toUser = self.toUser = {
                 userId: uid,
                 userPic: 'http://ionicframework.com/img/docs/venkman.jpg',
-                userName: contact && contact.displayName ? contact.displayName : 'Undefined'
+                userName: name
             };
 			
             self.getLastMessages();
@@ -127,13 +128,20 @@
 
     MessagesController.prototype.getLastMessages = function() {
         var self = this;
-        var msgPath = ['buildings', self.buildingKey, 'messages'].join('/');
-		
-		if (self.mode == "chat")
-			msgPath = "messages";
+        var query;
 
-        self.messageRef = firebase.database().ref(msgPath);
-        self.messageRef.orderByChild('channel').equalTo(self.channelKey)
+        if (self.mode == "chat") {
+            self.messageRef = firebase.database().ref("messages");
+            query = self.messageRef.orderByChild('to').equalTo(self.toUserId);
+        }
+        else {
+            var msgPath = ['buildings', self.buildingKey, 'messages'].join('/');
+            self.messageRef = firebase.database().ref(msgPath);
+
+            query = self.messageRef.orderByChild('channel').equalTo(self.channelKey);
+        }
+
+        query
             .limitToLast(100)
             .on('value', function(s) {
                 self.$scope.messages = s.val();
@@ -147,7 +155,6 @@
     MessagesController.prototype.doSendMessage = function(self, msg) {
         var message = {
             date: new Date().toISOString(),
-            channel: self.channelKey,
             text: msg,
             userName: self.$scope.user.name,
             userId: self.$scope.user.id,
@@ -157,7 +164,13 @@
         if (self.toUser)
             message.to = self.toUser.userId;
 
-        var msgPath = ['buildings', self.buildingKey, 'messages'].join('/');
+        if (self.mode == "channel")
+            message.channel = self.channelKey;
+
+        var msgPath = (self.mode == "chat")
+            ? "messages"
+            : ['buildings', self.buildingKey, 'messages'].join('/');
+
         firebase.database().ref(msgPath).push(message);
 
         self.$scope.inputMessage = '';
