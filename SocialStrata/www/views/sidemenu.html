@@ -18,56 +18,35 @@
         </ion-header-bar>
         <ion-content>
             <ion-list>
-                <ion-item menu-close ui-sref="app.profile" class="item-avatar">
-                  <img src="../img/ionic.png">
-                  <h3>{{displayName}}</h3>
+                <ion-item menu-close ui-sref="app.buildings" class="item-avatar">
+                  <h3>{{building.name}}</h3>
+				  <p>{{building.address}}</p>
                </ion-item>
+			   <ion-item menu-close  class="positive" ui-sref="login">
+                    <i class="ion ion-log-out"></i> Logout
+                </ion-item>
                 
-                <ion-item class="stable-bg">
-                    <i>Messages</i>
-                </ion-item>
-                <ion-item menu-close  class="royal">
-                    Landlord
-                </ion-item>
-                <ion-item menu-close  class="positive">
-                    Tennant
-                </ion-item>
-                <ion-item menu-close  class="positive">
-                    Tennant
+                <ion-item menu-close  class="royal" ui-sref="app.people">
+                    Direct Messages
                 </ion-item>
                 
                 <ion-item class="stable-bg">
-                    <i>Groups</i>
+                    <i>Channels</i>
                 </ion-item>
-                <ion-item menu-close  class="positive">
+                <ion-item menu-close class="positive" ng-click="channel('parking')">
                     Parking Garage
                 </ion-item>
-                <ion-item menu-close  class="positive">
+                <ion-item menu-close class="positive" ng-click="channel('garden')">
                     Garden
                 </ion-item>
-                <ion-item menu-close  class="positive">
+                <ion-item menu-close class="positive" ng-click="channel('water')">
                     Water
                 </ion-item>
-                
-                <ion-item class="stable-bg">
-                    <i>Services</i>
-                </ion-item>
-                <ion-item menu-close  class="positive">
+                <ion-item menu-close  class="positive" ng-click="channel('lostfound')">
                     Lost &amp; Found
                 </ion-item>
-                <ion-item menu-close  class="positive">
+                <ion-item menu-close  class="positive" ng-click="channel('maintenace')">
                     Request Maintenance
-                </ion-item>
-                <ion-item menu-close  class="positive">
-                    Payments
-                </ion-item>
-                
-                <ion-item menu-close class="stable-bg">
-                    <i>Info</i>
-                </ion-item>
-                
-                <ion-item menu-close  class="positive" >
-                    <i class="ion ion-log-out"></i> Logout
                 </ion-item>
             </ion-list>
         </ion-content>

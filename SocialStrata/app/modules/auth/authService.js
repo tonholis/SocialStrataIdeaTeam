@@ -12,8 +12,8 @@
 		return auth.createUserWithEmailAndPassword(email, password);
 	}
 	
-    function authService($q, $rootScope, firebaseService, user) {
-		var auth = firebaseService.fb.auth();
+    function authService($q, $rootScope, user, buildingsService, selectedBuilding) {
+		var auth = firebase.auth();
 		
 		$rootScope.$on('name-changed', function() {
 			var usr = firebase.auth().currentUser;
@@ -36,7 +36,7 @@
 					deferred.resolve(info);
 									
 					user = firebase.auth().currentUser;
-					$rootScope.$broadcast('name-changed');
+					$rootScope.$emit('name-changed');
 				};
 
 				var errorHandler = function(error) {

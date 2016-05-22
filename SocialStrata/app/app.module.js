@@ -15,6 +15,7 @@
         ])
 		
 		.value("user", null)
+		.value("selectedBuilding", null)
 
         .run(function ($ionicPlatform, $timeout, $rootScope) {
 			$ionicPlatform.ready(function () {

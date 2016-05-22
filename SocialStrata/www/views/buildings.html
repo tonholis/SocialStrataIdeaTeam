@@ -1,8 +1,9 @@
 <ion-view view-title="Buildings" ng-controller="buildingsController">
 	<ion-content>
 		<ion-list>
-			<ion-item ng-repeat="(key, building) in buildings" ui-sref="app.building({buildingId : key})">
+			<ion-item ng-repeat="(key, building) in buildings" ng-click="select(key, building)" class="item-icon-right">
 				{{building.name}}
+				<i class="icon ion-checkmark-circled" ng-show="key == selectedKey"></i>
 			</ion-item>
 			<div class="card" ng-show="!buildings">
 				<div class="item item-text-wrap">

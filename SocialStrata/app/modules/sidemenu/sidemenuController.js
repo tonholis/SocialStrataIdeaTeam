@@ -6,12 +6,23 @@
         .controller("sidemenuController", sidemenuController);
 
 
-    function sidemenuController($scope, authService, messagesService) {
-		$scope.$on('name-changed', function() {
-			$scope.displayName = authService.user().displayName;
+    function sidemenuController($scope, $state) {
+		// $scope.$on('name-changed', function() {
+		// 	$scope.displayName = authService.user().displayName;
+		// });
+		
+		$scope.building = {
+			name: "Select a building",
+			address: "",
+		};
+		
+		$scope.$on('building-selected', function(event, data) {
+			$scope.building.name = data.name;
+			$scope.building.address = data.address;
 		});
 		
-		var user = authService.user();
-		$scope.displayName = user ? user.displayName : "Edit Name";
+		$scope.channel = function(channelKey) {
+			//$state.go('app.channel', { buildingId: channelKey});
+		};
     }
 })();
