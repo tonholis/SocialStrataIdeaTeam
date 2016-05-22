@@ -8,21 +8,21 @@
 
 	<ion-content has-bouncing="true" class="has-header has-footer" delegate-handle="userMessageScroll">
 
-		<div ng-repeat="message in messages" class="message-wrapper" on-hold="onMessageHold($event, $index, message)">
+		<div ng-repeat="message in messages" class="message-wrapper">
 
 			<div ng-if="user._id !== message.userId">
 
 				<img class="profile-pic left"
-					ng-src="{{toUser.pic}}" 
+					ng-src="{{message.userPic}}" 
 					onerror="onProfilePicError(this)" />
 
-				<div class="chat-bubble">
+				<div class="chat-bubble left">
 
 					<div class="message" ng-bind-html="message.text | nl2br" autolinker>
 					</div>
 
 					<div class="message-detail">
-						<span class="bold">{{toUser.username}}</span>,
+						<span class="bold">{{message.username}}</span>,
 						<span am-time-ago="message.date"></span>
 					</div>
 
@@ -31,7 +31,7 @@
 
 			<div ng-if="user._id === message.userId">
 
-				<img class="profile-pic right" ng-src="{{user.pic}}" onerror="onProfilePicError(this)" />
+				<img class="profile-pic right" ng-src="{{message.userPic}}" onerror="onProfilePicError(this)" />
 
 				<div class="chat-bubble right">
 
@@ -54,7 +54,7 @@
 	</ion-content>
 	
 
-	<form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>
+	<form name="sendMessageForm" ng-submit="sendMessage(input.message)" novalidate>
 		<ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
 			<label class="item-input-wrapper">
 				<textarea ng-model="input.message" value="" placeholder="Send {{toUser.username}} a message..." required minlength="1" maxlength="1500"

@@ -8,71 +8,84 @@
             '$state',
             '$stateParams',
             '$ionicScrollDelegate',
+			'$timeout',
             'channelsService',
             'globalsService',
             MessagesController
         ]);
 
-    function MessagesController($scope, $state, $stateParams, $ionicScrollDelegate, channelsService, globalsService) {
+    function MessagesController($scope, $state, $stateParams, $ionicScrollDelegate, $timeout, channelsService, globalsService) {
+        var self = this;
+
         //available services
         this.$scope = $scope;
         this.$state = $state;
         this.$stateParams = $stateParams;
         this.$ionicScrollDelegate = $ionicScrollDelegate;
+		this.$timeout = $timeout;
         this.channelsService = channelsService;
-		this.globalsService = globalsService;
+        this.globalsService = globalsService;
 
-		if (!this.validate())
-			return false;
-        
+        if (!this.validate())
+            return false;
+
         //custom properties
         this.buildingKey = globalsService.building.key;
         this.channelKey = this.$stateParams.channelId;
-        this.messagesRef = firebase.database().ref(['buildings', this.buildingKey, 'messages'].join('/'));
-		this.messagesRef.on('child_added', function(s) {
-			console.log(s.val());
-		});
-		
+        this.messageRef;
+
         $scope.user = {
-            _id: "534b8fb2aa5e7afc1b23e69c", //$scope.user.uid,
+            id: $scope.user.uid,
             pic: 'http://ionicframework.com/img/docs/mcfly.jpg',
-            username: globalsService.user.displayName ? globalsService.user.displayName : 'Anonymous'
+            name: globalsService.user.displayName ? globalsService.user.displayName : 'Undefined'
         };
 
+		$scope.channelKey = this.channelKey; //to use in sendMessage
         $scope.toUser;
+        $scope.messages = [];
+		$scope.sendMessage = function(msg) {
+			self.doSendMessage(self, msg);
+		};
 
         //UI elements
         this.viewScroll = $ionicScrollDelegate.$getByHandle('userMessageScroll');
+        this.footerBar = document.body.querySelector('#userMessagesView .bar-footer');
+        this.scroller = document.body.querySelector('#userMessagesView .scroll-content');
+        this.txtInput = angular.element(this.footerBar.querySelector('textarea'));
 
         //events
         $scope.$on("chat-receive-message", this.onReceiveMessage);
 
+        $scope.$on('$ionicView.beforeLeave', function() {
+            self.messageRef.off('child_added');
+        });
+
         this.init();
     }
-	
-	MessagesController.prototype.validate = function() {
-		if (!this.globalsService.user) {
+
+    MessagesController.prototype.validate = function() {
+        if (!this.globalsService.user) {
             this.$state.go('login');
             return false;
         }
-		
-		if (!this.globalsService.building) {
+
+        if (!this.globalsService.building) {
             this.$state.go('app.buildings');
             return false;
         }
-		
-		return true;
-	};
+
+        return true;
+    };
 
     //Check if is a Common Room or Direct Message
     MessagesController.prototype.init = function() {
         var self = this;
-		
+
         var channelPath = ['buildings', this.buildingKey, 'channels', this.$stateParams.channelId].join('/');
         console.log(channelPath);
 
         var channelRef = firebase.database().ref(channelPath);
-        channelRef.on('value', function(snapshot) {
+        channelRef.once('value', function(snapshot) {
             self.channel = snapshot.val();
 
             if (self.channel.type == "direct") { //direct message
@@ -85,17 +98,17 @@
     };
 
     MessagesController.prototype.setContact = function(uid) {
-		var self = this;
-		
+        var self = this;
+
         var contactPath = ['users', uid].join('/');
         console.log(contactPath);
 
-        firebase.database().ref(contactPath).on('value', function(snapshot) {
+        firebase.database().ref(contactPath).once('value', function(snapshot) {
             var contact = snapshot.val();
             self.$scope.toUser = {
-                _id: "534b8e5aaa5e7afc1b23e69b", //user.uid,
-                pic: 'http://ionicframework.com/img/docs/mcfly.jpg',
-                username: contact && contact.displayName ? contact.displayName : 'Anonymous'
+                userId: user.uid,
+                userPic: 'http://ionicframework.com/img/docs/venkman.jpg',
+                userName: contact && contact.displayName ? contact.displayName : 'Undefined'
             };
 
             self.getLastMessages();
@@ -103,127 +116,56 @@
     };
 
     MessagesController.prototype.getLastMessages = function() {
-        
-        //present last 30 messages
-        this.$scope.messages = [{
-            "_id": "535d625f898df4e80e2a125e",
-            "text": "Ionic has changed the game for hybrid app development.",
-            "userId": "534b8fb2aa5e7afc1b23e69c",
-            "date": "2014-04-27T20:02:39.082Z",
-            "read": true,
-            "readDate": "2014-12-01T06:27:37.944Z"
-        }, {
-                "_id": "535f13ffee3b2a68112b9fc0",
-                "text": "I like Ionic better than ice cream!",
-                "userId": "534b8e5aaa5e7afc1b23e69b",
-                "date": "2014-04-29T02:52:47.706Z",
-                "read": true,
-                "readDate": "2014-12-01T06:27:37.944Z"
-            }, {
-                "_id": "546a5843fd4c5d581efa263a",
-                "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                "userId": "534b8fb2aa5e7afc1b23e69c",
-                "date": "2014-11-17T20:19:15.289Z",
-                "read": true,
-                "readDate": "2014-12-01T06:27:38.328Z"
-            }, {
-                "_id": "54764399ab43d1d4113abfd1",
-                "text": "Am I dreaming?",
-                "userId": "534b8e5aaa5e7afc1b23e69b",
-                "date": "2014-11-26T21:18:17.591Z",
-                "read": true,
-                "readDate": "2014-12-01T06:27:38.337Z"
-            }, {
-                "_id": "547643aeab43d1d4113abfd2",
-                "text": "Is this magic?",
-                "userId": "534b8fb2aa5e7afc1b23e69c",
-                "date": "2014-11-26T21:18:38.549Z",
-                "read": true,
-                "readDate": "2014-12-01T06:27:38.338Z"
-            }, {
-                "_id": "547815dbab43d1d4113abfef",
-                "text": "Gee wiz, this is something special.",
-                "userId": "534b8e5aaa5e7afc1b23e69b",
-                "date": "2014-11-28T06:27:40.001Z",
-                "read": true,
-                "readDate": "2014-12-01T06:27:38.338Z"
-            }, {
-                "_id": "54781c69ab43d1d4113abff0",
-                "text": "I think I like Ionic more than I like ice cream!",
-                "userId": "534b8fb2aa5e7afc1b23e69c",
-                "date": "2014-11-28T06:55:37.350Z",
-                "read": true,
-                "readDate": "2014-12-01T06:27:38.338Z"
-            }, {
-                "_id": "54781ca4ab43d1d4113abff1",
-                "text": "Yea, it's pretty sweet",
-                "userId": "534b8e5aaa5e7afc1b23e69b",
-                "date": "2014-11-28T06:56:36.472Z",
-                "read": true,
-                "readDate": "2014-12-01T06:27:38.338Z"
-            }, {
-                "_id": "5478df86ab43d1d4113abff4",
-                "text": "Wow, this is really something huh?",
-                "userId": "534b8fb2aa5e7afc1b23e69c",
-                "date": "2014-11-28T20:48:06.572Z",
-                "read": true,
-                "readDate": "2014-12-01T06:27:38.339Z"
-            }, {
-                "_id": "54781ca4ab43d1d4113abff1",
-                "text": "Create amazing apps - ionicframework.com",
-                "userId": "534b8e5aaa5e7afc1b23e69b",
-                "date": "2014-11-29T06:56:36.472Z",
-                "read": true,
-                "readDate": "2014-12-01T06:27:38.338Z"
-            }];
-    };
-
-    MessagesController.prototype.onReceiveMessage = function() {
-
-    };
-
-    MessagesController.prototype.sendMessage = function(sendMessageForm) {
         var self = this;
+        var msgPath = ['buildings', self.buildingKey, 'messages'].join('/');
 
-        var message = {
-            toId: $scope.toUser._id,
-            text: $scope.input.message
-        };
+        self.messageRef = firebase.database()
+            .ref(msgPath)
+            .orderByChild('channel').equalTo(self.channelKey)
+            .limitToLast(100)
+            .on('value', function(s) {
+                console.log(s.val());
+                self.$scope.messages = s.val();
+            });
+    };
 
+    MessagesController.prototype.doSendMessage = function(self, msg) {
         // if you do a web service call this will be needed as well as before the viewScroll calls
         // you can't see the effect of this in the browser it needs to be used on a real device
         // for some reason the one time blur event is not firing in the browser but does on devices
         // keepKeyboardOpen();
 
-        //MockService.sendMessage(message).then(function(data) {
-        $scope.input.message = '';
+        var message = {
+            date: new Date(),
+            channel: self.channelKey,
+            text: msg,
+            userName: self.$scope.user.name,
+            userId: self.$scope.user.id,
+            userPic: self.$scope.user.pic
+        };
+		
+		if (self.toUser)
+			message.to = self.toUser.uid; 
 
-        message._id = new Date().getTime(); // :~)
-        message.date = new Date();
-        message.username = $scope.user.username;
-        message.userId = $scope.user._id;
-        message.pic = $scope.user.picture;
+		var msgPath = ['buildings', self.buildingKey, 'messages'].join('/');
+        firebase.database().ref(msgPath).push(message);
 
-        $scope.messages.push(message);
-
-        $timeout(function() {
-            keepKeyboardOpen();
+        self.$timeout(function() {
+            self.keepKeyboardOpen();
             self.viewScroll.scrollBottom(true);
         }, 0);
-
-        // $timeout(function() {
-        //     $scope.messages.push(MockService.getMockMessage());
-        //     keepKeyboardOpen();
-        //     self.viewScroll.scrollBottom(true);
-        // }, 2000);
-
     };
 
+    MessagesController.prototype.keepKeyboardOpen = function() {
+        this.txtInput.one('blur', function() {
+            console.log('textarea blur, focus back on it');
+            self.txtInput[0].focus();
+        });
+    };
 
-
-
-
-
+    MessagesController.prototype.onProfilePicError = function(ele) {
+        this.ele.src = ''; //fallback
+    };
 
 
 
