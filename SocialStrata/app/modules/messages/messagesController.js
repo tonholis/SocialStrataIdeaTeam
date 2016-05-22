@@ -32,7 +32,7 @@
         //custom properties
         this.buildingKey = globalsService.building.key;
         this.channelKey = $stateParams.channelId;
-		this.mode = $stateParams.userId;
+		this.toUserId = $stateParams.userId;
 		this.mode = $stateParams.userId ? "chat" : "channel";
         this.messageRef;
 
@@ -102,21 +102,7 @@
 			});
 		}
 		else { //chat
-			var channelPath = ['users', this.buildingKey, 'channels', this.$stateParams.channelId].join('/');
-			console.log(channelPath);
-
-			var channelRef = firebase.database().ref(channelPath);
-			channelRef.once('value', function(snapshot) {
-				self.channel = snapshot.val();
-
-				if (self.channel.type == "direct") { //direct message
-					self.setContact(self.channel.user);
-				}
-				else { //Common room
-					self.getLastMessages();
-				}
-			});
-			
+			self.setContact(self.toUserId);
 		}
 
     };
@@ -142,6 +128,9 @@
     MessagesController.prototype.getLastMessages = function() {
         var self = this;
         var msgPath = ['buildings', self.buildingKey, 'messages'].join('/');
+		
+		if (self.mode == "chat")
+			msgPath = "messages";
 
         self.messageRef = firebase.database().ref(msgPath);
         self.messageRef.orderByChild('channel').equalTo(self.channelKey)
